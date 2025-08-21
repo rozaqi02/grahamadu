@@ -1,13 +1,94 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* src/index.css - Final Clean & Optimized */
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ======================
+   🌿 Root Variables
+   ====================== */
+:root {
+  --graha-cream: #ffffff;
+  --graha-gold: #f59e0b; /* kuning madu */
+  --graha-brown: #8b5e3c; /* coklat kayu */
+  --graha-green: #22624a; /* daun hijau */
+  --text-color: #333;
+  --bg-color: #ffffff;
+  --section-bg: #f9f9f9;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Dark Mode */
+html.dark {
+  --bg-color: #1a1f2b;
+  --text-color: #ffffff;
+  --section-bg: #2a344a;
+  --graha-green: #a3e4b7;
+}
+
+/* Light Mode */
+html.light {
+  --bg-color: #ffffff;
+  --text-color: #333;
+  --section-bg: #f9f9f9;
+  --graha-green: #22624a;
+}
+
+/* ======================
+   🌿 Base Styles
+   ====================== */
+html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  scroll-behavior: smooth;
+  font-size: 15px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--section-bg) 100%);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  position: relative;
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ======================
+   🌿 Typography Helpers
+   ====================== */
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
+
+.text-graha-green { color: var(--graha-green); }
+.text-graha-gold { color: var(--graha-gold); }
+.text-graha-brown { color: var(--graha-brown); }
+
+.bg-graha-green { background-color: var(--graha-green); }
+.bg-graha-gold { background-color: var(--graha-gold); }
+.bg-graha-brown { background-color: var(--graha-brown); }
+
+/* ======================
+   🌿 Background Animations
+   ====================== */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+  animation: rotate 30s linear infinite;
+  z-index: -1;
+}
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
