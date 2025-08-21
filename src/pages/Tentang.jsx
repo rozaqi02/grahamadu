@@ -4,7 +4,6 @@ import {
   FaCheckCircle,
   FaSeedling,
   FaLeaf,
-  FaUserFriends,
 } from "react-icons/fa";
 
 function Tentang({ theme }) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaWhatsapp, FaInstagram, FaFacebook } from "react-icons/fa";
+import { FaEnvelope, FaWhatsapp, FaInstagram} from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function Footer({ theme }) {
@@ -239,14 +239,6 @@ function Footer({ theme }) {
             className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
           >
             <FaInstagram />
-          </a>
-          <a
-            href="https://facebook.com/grahamadu"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
-          >
-            <FaFacebook />
           </a>
         </motion.div>
 

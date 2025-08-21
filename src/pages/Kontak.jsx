@@ -31,7 +31,7 @@ function Kontak({ theme }) {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
