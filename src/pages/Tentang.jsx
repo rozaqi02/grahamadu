@@ -1,238 +1,279 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import {
-  FaCheckCircle,
-  FaSeedling,
-  FaLeaf,
-} from "react-icons/fa";
+import { motion, useScroll, useTransform, useMotionValue, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { FaCheckCircle, FaSeedling, FaLeaf } from "react-icons/fa";
+
+/* CountUp angka yang smooth */
+function CountUp({ from = 0, to = 100, duration = 1.6, className = "" }) {
+  const ref = useRef(null);
+  const mv = useMotionValue(from);
+  useEffect(() => {
+    const controls = animate(mv, to, { duration, ease: "easeOut" });
+    const unsub = mv.on("change", (v) => {
+      if (ref.current) ref.current.textContent = Math.round(v).toLocaleString("id-ID");
+    });
+    return () => {
+      controls.stop();
+      unsub();
+    };
+  }, [mv, to, duration]);
+  return <span ref={ref} className={className} />;
+}
 
 function Tentang({ theme }) {
+  /* Progress bar di atas halaman */
+  const { scrollYProgress } = useScroll();
+  const width = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
 
-  const backgroundStyle = isMounted
+  const bg = isMounted
     ? {
-        backgroundColor: theme === "dark" ? "#1a1f2b" : "white",
-        transition: "background-color 0.3s ease",
+        backgroundColor: theme === "dark" ? "#0f1420" : "#ffffff",
+        transition: "background-color .3s ease",
       }
     : {};
 
+  /* Reveal helpers */
   const sectionVariants = {
-    hidden: { y: 40, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { y: 28, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
   return (
-    <div
-      className={`min-h-screen font-[Poppins] ${
-        theme === "dark" ? "text-white" : "text-gray-800"
-      }`}
-      style={backgroundStyle}
-    >
-      {/* Hero Section */}
-      <div
-        className="relative h-[65vh] flex items-center justify-center text-center bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1500111709600-7761aa8216c7?auto=format&fit=crop&w=1950&q=80')",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative text-4xl md:text-6xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text z-10"
-        >
-          Tentang Graha Madu 🍯
-        </motion.h1>
-      </div>
+    <div className={`min-h-screen font-[Poppins] ${theme === "dark" ? "text-white" : "text-gray-800"} relative`} style={bg}>
+      {/* Efek #1: scroll progress */}
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-[#e73136]" style={{ width }} />
 
-      {/* Konten */}
-      <motion.section
-        className="py-20 px-6 max-w-6xl mx-auto space-y-24"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
-      >
-        {/* Sejarah */}
-        <motion.div variants={itemVariants} className="text-center">
-          <h2 className="text-3xl font-bold mb-6 text-yellow-700 dark:text-yellow-300">
-            Sejarah Perusahaan
-          </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            <strong>Graha Madu</strong> berdiri dengan tujuan menghadirkan madu
-            asli, murni, dan berkualitas tinggi kepada masyarakat Indonesia.
-            Dengan pengalaman lebih dari <strong>10 tahun</strong>, kami telah
-            menjalin kerja sama dengan peternak lebah dari{" "}
-            <strong>Riau, Pati, dan Malang</strong>. Komitmen kami adalah
-            menjaga keaslian dan kualitas madu serta memberikan manfaat terbaik
-            bagi kesehatan keluarga Indonesia.
-          </p>
-        </motion.div>
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        {/* Efek #2: soft particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(12)].map((_, i) => (
+            <motion.span
+              key={i}
+              className="absolute w-2 h-2 rounded-full"
+              style={{
+                top: `${(i * 83) % 100}%`,
+                left: `${(i * 37) % 100}%`,
+                background:
+                  theme === "dark"
+                    ? "rgba(231,49,54,.55)"
+                    : "rgba(143,47,49,.35)",
+                filter: "blur(0.5px)",
+              }}
+              animate={{ y: [0, -16, 0], opacity: [0.3, 0.9, 0.3] }}
+              transition={{ duration: 6 + i * 0.25, repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}
+            />
+          ))}
+        </div>
 
-        {/* Visi Misi */}
-        <motion.div
-          variants={itemVariants}
-          className="grid md:grid-cols-2 gap-10"
-        >
+        <div className="relative max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pt-24 pb-16">
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="p-8 bg-yellow-50 dark:bg-[#2a2f3a] rounded-2xl shadow-lg hover:shadow-yellow-400/40 transition"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center"
           >
-            <h3 className="text-2xl font-bold mb-4 flex items-center gap-2 text-yellow-700 dark:text-yellow-300">
-              <FaSeedling className="animate-bounce-slow" /> Visi
+            <h1 className="text-4xl md:text-6xl font-[Montserrat] font-extrabold tracking-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e73136] to-[#8f2f31]">
+                Tentang NUTRI BUNGA
+              </span>
+            </h1>
+            <p className="mt-4 text-base md:text-lg text-gray-600 dark:text-gray-300">
+              Brand madu di bawah <strong>CV Hexa Anugerah Bersinar</strong> — fokus pada kualitas, keaslian, dan kemitraan berkelanjutan.
+            </p>
+
+            {/* Efek #3: glass badge shimmer */}
+            <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 bg-white/20 dark:bg-white/10 backdrop-blur-md text-sm text-white relative overflow-hidden">
+              <span className="z-[1]">Legalitas: Merek • Halal • BPOM MD</span>
+              <span className="absolute -left-10 top-0 bottom-0 w-12 bg-white/50 skew-x-[-20deg] animate-pulse" />
+            </div>
+          </motion.div>
+
+          {/* Efek #4: stats count-up */}
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Lama Usaha", val: 10, suffix: " th" },
+              { label: "Ragam Produk", val: 6, suffix: "+" },
+              { label: "Area Pasokan", val: 4, suffix: " daerah" },
+              { label: "Kota Utama", val: 4, suffix: " kota" },
+            ].map((s) => (
+              <motion.div
+                key={s.label}
+                className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-[#0f1420]/70 backdrop-blur-md p-5 text-center shadow-sm"
+                whileHover={{ y: -3 }}
+              >
+                <div className="text-3xl md:text-4xl font-extrabold text-[#e73136]">
+                  <CountUp to={s.val} /> <span className="text-base md:text-lg font-semibold">{s.suffix}</span>
+                </div>
+                <div className="mt-1 text-xs md:text-sm text-gray-600 dark:text-gray-400">{s.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROFIL */}
+      <motion.section
+        className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 py-14"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="rounded-3xl border border-gray-200 dark:border-gray-800 p-6 md:p-8 bg-white dark:bg-gray-900 shadow-sm">
+            <h2 className="text-2xl md:text-3xl font-bold mb-5 text-[#8f2f31] dark:text-[#e73136]">Profil Perusahaan</h2>
+            <ul className="space-y-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+              <li><strong>Badan Usaha:</strong> CV Hexa Anugerah Bersinar</li>
+              <li><strong>Lama Usaha:</strong> ± 10 tahun</li>
+              <li><strong>Legalitas:</strong> Merek, Sertifikat Halal, BPOM MD</li>
+              <li>
+                <strong>Produk:</strong> Madu Murni, Madu Premium, Madu Klanceng, Madu Royal Jelly, Madu Propolis, Madu Bawang Lanang/Tunggal
+              </li>
+              <li><strong>Pasar:</strong> Jakarta, Yogyakarta, Surabaya, Malang Raya (apotik & ritel)</li>
+              <li><strong>Suplier:</strong> Riau, Pati, Pasuruan, Malang</li>
+            </ul>
+          </div>
+
+          {/* Efek #5: timeline dengan line animasi */}
+          <div className="relative rounded-3xl border border-gray-200 dark:border-gray-800 p-6 md:p-8 bg-white dark:bg-gray-900 shadow-sm overflow-hidden">
+            <motion.div
+              className="absolute left-5 top-10 bottom-10 w-[3px] bg-gradient-to-b from-[#e73136] to-[#8f2f31] origin-top"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+              viewport={{ once: true }}
+            />
+            <h3 className="text-xl md:text-2xl font-bold mb-6">Perjalanan Singkat</h3>
+            <div className="space-y-8 pl-10">
+              {[
+                { t: "2014", d: "Mulai bermitra dengan peternak lokal." },
+                { t: "2017", d: "Memperluas pasokan: Riau & Pati." },
+                { t: "2020", d: "Legalitas Halal & BPOM MD lengkap." },
+                { t: "2024+", d: "Distribusi ritel/apotek di Malang Raya & ekspansi kota besar." },
+              ].map((it) => (
+                <motion.div key={it.t} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 w-3 h-3 rounded-full bg-[#e73136] shadow" />
+                    <div>
+                      <div className="text-sm font-semibold text-gray-500 dark:text-gray-400">{it.t}</div>
+                      <div className="text-base">{it.d}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* VISI & MISI */}
+      <motion.section
+        className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 py-6"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <div className="grid md:grid-cols-2 gap-6">
+          <motion.div
+            whileHover={{ y: -4, rotate: -0.2 }}
+            className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
+          >
+            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
+              <FaSeedling /> Visi
             </h3>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              Menjadi brand madu terpercaya di Indonesia yang menghadirkan
-              produk alami berkualitas dengan menjaga keberlanjutan peternakan
-              lebah.
+            <p className="text-gray-700 dark:text-gray-300">
+              Menjadi brand madu terpercaya di Indonesia yang menghadirkan produk alami berkualitas dengan menjaga keberlanjutan kemitraan peternak lebah.
             </p>
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="p-8 bg-yellow-50 dark:bg-[#2a2f3a] rounded-2xl shadow-lg hover:shadow-yellow-400/40 transition"
+            whileHover={{ y: -4, rotate: 0.2 }}
+            className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
           >
-            <h3 className="text-2xl font-bold mb-4 flex items-center gap-2 text-yellow-700 dark:text-yellow-300">
-              <FaLeaf className="animate-bounce-slow" /> Misi
+            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
+              <FaLeaf /> Misi
             </h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
               <li>Menyediakan produk madu asli, sehat, dan bermanfaat.</li>
-              <li>Mendukung peternak lebah lokal melalui kemitraan berkelanjutan.</li>
-              <li>Mengedukasi masyarakat tentang manfaat madu dan produk lebah.</li>
-              <li>Menjamin kualitas melalui legalitas resmi dan uji laboratorium.</li>
+              <li>Memberdayakan peternak lokal melalui kemitraan berkelanjutan.</li>
+              <li>Mengedukasi konsumen tentang manfaat madu & produk lebah.</li>
+              <li>Menjamin kualitas melalui legalitas resmi & uji laboratorium.</li>
             </ul>
           </motion.div>
-        </motion.div>
+        </div>
+      </motion.section>
 
-        {/* Divider */}
-        <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-yellow-400/60 to-transparent" />
+      {/* LEGALITAS */}
+      <motion.section
+        className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 py-14"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-[#8f2f31] dark:text-[#e73136]">
+          Legalitas & Sertifikasi
+        </h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {["Merek Dagang", "Sertifikat Halal", "BPOM MD"].map((item) => (
+            <motion.div
+              key={item}
+              whileHover={{ scale: 1.03 }}
+              className="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm text-center"
+            >
+              <FaCheckCircle className="mx-auto text-green-500 text-4xl mb-3" />
+              <div className="font-medium">{item}</div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
 
-        {/* Legalitas */}
-        <motion.div variants={itemVariants}>
-          <h2 className="text-3xl font-bold mb-12 text-yellow-700 dark:text-yellow-300 text-center">
-            Legalitas & Sertifikasi
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            {[
-              "Sertifikat Merek Dagang",
-              "Sertifikat Halal MUI",
-              "Izin BPOM MD",
-              "Uji Laboratorium (keaslian & kualitas madu)",
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.08, rotate: 1 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-6 rounded-xl bg-yellow-50 dark:bg-[#2a2f3a] shadow-lg flex flex-col items-center"
-              >
-                <FaCheckCircle className="text-green-500 text-4xl mb-3 drop-shadow-md" />
-                <p className="text-sm font-medium">{item}</p>
-              </motion.div>
-            ))}
+      {/* PASOKAN & PASAR */}
+      <motion.section
+        className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pb-20"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="rounded-3xl p-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <h3 className="text-xl font-bold mb-4 text-[#8f2f31] dark:text-[#e73136]">Area Pasokan</h3>
+            <div className="flex flex-wrap gap-2">
+              {["Riau", "Pati", "Pasuruan", "Malang"].map((x) => (
+                <motion.span
+                  key={x}
+                  whileHover={{ y: -2 }}
+                  className="px-3 py-1.5 rounded-full text-sm bg-[#fdecec] text-[#8f2f31] dark:bg-[#1a2230] dark:text-[#ffd2d3] border border-[#f3c5c6] dark:border-gray-700"
+                >
+                  {x}
+                </motion.span>
+              ))}
+            </div>
           </div>
-        </motion.div>
-
-        {/* Mitra Peternak */}
-        <motion.div variants={itemVariants}>
-          <h2 className="text-3xl font-bold mb-12 text-yellow-700 dark:text-yellow-300 text-center">
-            Mitra Peternak
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { nama: "Riau", img: "https://source.unsplash.com/400x300/?honey" },
-              { nama: "Pati", img: "https://source.unsplash.com/400x300/?bees" },
-              {
-                nama: "Malang",
-                img: "https://source.unsplash.com/400x300/?beekeeper",
-              },
-            ].map((m, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="rounded-xl overflow-hidden shadow-lg bg-white dark:bg-[#2a2f3a] transition"
-              >
-                <img
-                  src={m.img}
-                  alt={m.nama}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <h3 className="font-bold text-lg text-yellow-700 dark:text-yellow-300">
-                    {m.nama}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Peternak lebah mitra Graha Madu
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="rounded-3xl p-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <h3 className="text-xl font-bold mb-4 text-[#8f2f31] dark:text-[#e73136]">Pasar Utama</h3>
+            <div className="flex flex-wrap gap-2">
+              {["Jakarta", "Yogyakarta", "Surabaya", "Malang Raya (apotik & ritel)"].map((x) => (
+                <motion.span
+                  key={x}
+                  whileHover={{ y: -2 }}
+                  className="px-3 py-1.5 rounded-full text-sm bg-[#fdecec] text-[#8f2f31] dark:bg-[#1a2230] dark:text-[#ffd2d3] border border-[#f3c5c6] dark:border-gray-700"
+                >
+                  {x}
+                </motion.span>
+              ))}
+            </div>
           </div>
-        </motion.div>
-
-        {/* Komitmen */}
-        <motion.div variants={itemVariants} className="text-center max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-yellow-700 dark:text-yellow-300">
-            Komitmen Kami
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-            Kami percaya bahwa madu bukan hanya sekadar pemanis alami, tetapi
-            juga warisan kesehatan dari alam. Graha Madu berkomitmen untuk terus
-            menghadirkan madu berkualitas, mendukung peternak lokal, serta
-            memberikan edukasi tentang pentingnya produk alami untuk kehidupan
-            yang lebih sehat.
-          </p>
-
-          {/* Mini Tim Highlight */}
-          <div className="flex justify-center gap-8 mt-8">
-            {[
-              {
-                nama: "Abror Rozaqi",
-                role: "Founder",
-                img: "https://source.unsplash.com/100x100/?portrait",
-              },
-              {
-                nama: "Nabila Putri",
-                role: "Co-Founder",
-                img: "https://source.unsplash.com/100x100/?woman",
-              },
-            ].map((person, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05 }}
-                className="flex flex-col items-center"
-              >
-                <img
-                  src={person.img}
-                  alt={person.nama}
-                  className="w-20 h-20 rounded-full object-cover border-4 border-yellow-400 shadow-md"
-                />
-                <h4 className="mt-3 font-semibold text-yellow-700 dark:text-yellow-300">
-                  {person.nama}
-                </h4>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {person.role}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
       </motion.section>
     </div>
   );
 }
 
 export default Tentang;
+  

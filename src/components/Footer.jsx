@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaWhatsapp, FaInstagram} from "react-icons/fa6";
+import { FaEnvelope, FaWhatsapp, FaInstagram } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function Footer({ theme }) {
@@ -12,17 +12,16 @@ function Footer({ theme }) {
         background:
           theme === "dark"
             ? "linear-gradient(135deg, #1a1f2b, #0f172a)"
-            : "linear-gradient(135deg, #f59e0b, #b45309)", // kuning ke coklat madu
+            : "linear-gradient(135deg, #8f2f31, #e73136)",
         transition: "background 1s ease-in-out, color 0.6s ease",
         position: "relative",
         overflow: "hidden",
       }
     : {};
 
-  // Smooth scroll top
-  const smoothScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const WA_LINK = "https://wa.me/6281334426377"; // 081 3344 26 377
+
+  const smoothScrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <footer
@@ -31,7 +30,7 @@ function Footer({ theme }) {
       }`}
       style={backgroundStyle}
     >
-      {/* Wave background */}
+      {/* Wave */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,13 +41,13 @@ function Footer({ theme }) {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
           <path
-            fill={theme === "dark" ? "#fbbf24" : "#fde68a"}
+            fill={theme === "dark" ? "#e73136" : "#f4b5b6"}
             fillOpacity="0.4"
             d="M0,128L60,133.3C120,139,240,149,360,170.7C480,192,600,224,720,224C840,224,960,192,1080,165.3C1200,139,1320,117,1380,106.7L1440,96L1440,320L0,320Z"
           />
         </motion.svg>
 
-        {/* Partikel glowing */}
+        {/* Partikel */}
         {[...Array(10)].map((_, i) => (
           <motion.div
             key={i}
@@ -64,10 +63,9 @@ function Footer({ theme }) {
               y: [0, -25, 0],
               opacity: [0.3, 1, 0.3],
               backgroundColor: [
-                "rgba(251,191,36,0.9)", // kuning madu
-                "rgba(253,224,71,0.9)", // honey light
-                "rgba(245,158,11,0.9)", // golden
-                "rgba(251,191,36,0.9)", 
+                "rgba(255,255,255,0.6)",
+                "rgba(255,255,255,0.3)",
+                "rgba(255,255,255,0.6)",
               ],
             }}
             transition={{
@@ -80,7 +78,7 @@ function Footer({ theme }) {
         ))}
       </div>
 
-      {/* Konten utama */}
+      {/* Konten */}
       <motion.div
         className="max-w-7xl mx-auto px-6 py-16 relative z-10"
         initial={{ y: 50, opacity: 0 }}
@@ -99,12 +97,12 @@ function Footer({ theme }) {
             <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
               <img
                 src="/assets/images/logo.png"
-                alt="Logo Graha Madu"
+                alt="Logo NUTRI BUNGA"
                 className="w-10 h-10 object-contain"
               />
-              <h2 className="text-xl font-bold">Graha Madu</h2>
+              <h2 className="text-xl font-bold">NUTRI BUNGA</h2>
             </div>
-            <p className="text-sm text-gray-200 leading-relaxed">
+            <p className="text-sm text-gray-100/90 leading-relaxed">
               Menghadirkan madu murni dan alami berkualitas tinggi, untuk
               kesehatan keluarga Indonesia.
             </p>
@@ -115,57 +113,27 @@ function Footer({ theme }) {
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-yellow-300">
-              Navigasi
-            </h3>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Navigasi</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  to="/"
-                  onClick={smoothScrollTop}
-                  className="hover:text-yellow-200 transition-colors"
-                >
-                  Beranda
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/produk"
-                  onClick={smoothScrollTop}
-                  className="hover:text-yellow-200 transition-colors"
-                >
-                  Produk
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/testimoni"
-                  onClick={smoothScrollTop}
-                  className="hover:text-yellow-200 transition-colors"
-                >
-                  Testimoni
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/tentang"
-                  onClick={smoothScrollTop}
-                  className="hover:text-yellow-200 transition-colors"
-                >
-                  Tentang
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/kontak"
-                  onClick={smoothScrollTop}
-                  className="hover:text-yellow-200 transition-colors"
-                >
-                  Kontak
-                </Link>
-              </li>
+              {[
+                { to: "/", label: "Beranda" },
+                { to: "/produk", label: "Produk" },
+                { to: "/testimoni", label: "Testimoni" },
+                { to: "/tentang", label: "Tentang" },
+                { to: "/kontak", label: "Kontak" },
+              ].map((n) => (
+                <li key={n.to}>
+                  <Link
+                    to={n.to}
+                    onClick={smoothScrollTop}
+                    className="hover:text-white transition-colors"
+                  >
+                    {n.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </motion.div>
 
@@ -174,35 +142,37 @@ function Footer({ theme }) {
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-yellow-300">
-              Hubungi Kami
-            </h3>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Hubungi Kami</h3>
             <div className="flex flex-col space-y-3 text-sm">
               <a
                 href="mailto:madunutribunga@gmail.com"
-                className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
+                className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <FaEnvelope /> madunutribunga@gmail.com
               </a>
+
+              {/* WA: pakai gaya baris normal (bukan badge bulat) agar teks tidak patah */}
               <a
-                href="https://wa.me/6281334426377"
+                href={WA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
+                className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <FaWhatsapp /> 081 3344 26 377
               </a>
+
               <a
                 href="https://www.instagram.com/grahamadu_/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
+                className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <FaInstagram /> @grahamadu_
               </a>
-              <p className="text-gray-300 mt-4 text-sm">
+
+              <p className="text-white/80 mt-4 text-sm">
                 📍 Malang, Indonesia <br />
                 🕒 Senin - Sabtu, 08.00 - 17.00
               </p>
@@ -210,48 +180,51 @@ function Footer({ theme }) {
           </motion.div>
         </div>
 
-        {/* Ikon Sosial */}
+        {/* Ikon Sosial konsisten (semua warna brand) */}
         <motion.div
-          className="flex justify-center md:justify-end gap-4 mt-8"
-          initial={{ scale: 0.8, opacity: 0 }}
+          className="flex justify-center md:justify-end gap-3 mt-8"
+          initial={{ scale: 0.9, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
-          >
-            <FaWhatsapp />
-          </a>
-          <a
-            href="mailto:madunutribunga@gmai.com"
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
-          >
-            <FaEnvelope />
-          </a>
-          <a
-            href="https://www.instagram.com/grahamadu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
-          >
-            <FaInstagram />
-          </a>
+          {[
+            { href: WA_LINK, icon: <FaWhatsapp />, label: "WhatsApp" },
+            {
+              href: "mailto:madunutribunga@gmail.com",
+              icon: <FaEnvelope />,
+              label: "Email",
+            },
+            {
+              href: "https://www.instagram.com/grahamadu_/",
+              icon: <FaInstagram />,
+              label: "Instagram",
+            },
+          ].map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              title={s.label}
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-[#e73136] hover:bg-[#8f2f31] transition"
+            >
+              {s.icon}
+            </a>
+          ))}
         </motion.div>
 
         {/* Copyright */}
         <motion.div
-          className="border-t border-gray-700 mt-10 pt-6 text-center"
+          className="border-t border-white/20 mt-10 pt-6 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 0.5 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
         >
-          <p className="text-xs text-gray-300">
-            © 2025 Graha Madu | CV Hexa Anugerah Bersinar. All rights reserved.
+          <p className="text-xs text-white/80">
+            © 2025 NUTRI BUNGA | CV Hexa Anugerah Bersinar. All rights reserved.
           </p>
         </motion.div>
       </motion.div>

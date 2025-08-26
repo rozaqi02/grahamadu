@@ -1,43 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/assets/images/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <title>NUTRI BUNGA — Madu Asli & Premium</title>
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="NUTRI BUNGA dari CV Hexa Anugerah Bersinar: madu murni, premium, klanceng, royal jelly, propolis, dan madu bawang lanang. Legalitas Merek, Halal, dan BPOM MD."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="keywords" content="madu,madu asli,madu premium,royal jelly,propolis,klanceng,malang,halal,bpom" />
+    <meta name="theme-color" content="#e73136" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Graha Madu</title>
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NUTRI BUNGA" />
+    <meta property="og:title" content="NUTRI BUNGA — Madu Asli & Premium" />
+    <meta
+      property="og:description"
+      content="Madu berkualitas dari Riau, Pati, Pasuruan, dan Malang. Legalitas lengkap: Merek, Halal, BPOM MD."
+    />
+    <meta property="og:url" content="https://nutribunga.id" />
+    <meta property="og:image" content="/assets/images/logo.png" />
+    <meta property="og:image:alt" content="Logo NUTRI BUNGA" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="NUTRI BUNGA — Madu Asli & Premium" />
+    <meta
+      name="twitter:description"
+      content="Madu berkualitas dari Riau, Pati, Pasuruan, dan Malang. Legalitas: Merek, Halal, BPOM MD."
+    />
+    <meta name="twitter:image" content="/assets/images/logo.png" />
+
+    <!-- Canonical (ganti ke domain final) -->
+    <link rel="canonical" href="https://nutribunga.id" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/assets/images/logo.png" />
+    <link rel="apple-touch-icon" href="/assets/images/logo.png" />
+    <meta name="apple-mobile-web-app-title" content="NUTRI BUNGA" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="msapplication-TileColor" content="#e73136" />
+
+    <!-- Manifest (CRA style token, sesuaikan jika perlu) -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Fonts: Poppins & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Prefetch / Preload (opsional, contoh gambar yang sering dipakai) -->
+    <link rel="prefetch" href="/assets/images/madu_premium.jpg" as="image" />
+    <link rel="prefetch" href="/assets/images/madu_murni.jpg" as="image" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "NUTRI BUNGA",
+        "url": "https://nutribunga.id",
+        "logo": "https://nutribunga.id/assets/images/logo.png",
+        "brand": "NUTRI BUNGA",
+        "description": "Madu murni & premium. Legalitas Merek, Halal, BPOM MD.",
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "CV Hexa Anugerah Bersinar"
+        },
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+62-813-3442-6377",
+          "areaServed": "ID"
+        }],
+        "sameAs": [
+          "https://www.instagram.com/grahamadu_/"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Silakan aktifkan JavaScript untuk menjalankan aplikasi ini.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
