@@ -92,3 +92,50 @@ body::before {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* ───────── Extra animations & helpers for hero ───────── */
+@keyframes blob {
+  0%   { border-radius: 42% 58% 63% 37% / 40% 38% 62% 60%; transform: translate(0,0) scale(1); }
+  33%  { border-radius: 58% 42% 45% 55% / 54% 40% 60% 46%; transform: translate(8px,-12px) scale(1.05); }
+  66%  { border-radius: 48% 52% 58% 42% / 46% 60% 40% 54%; transform: translate(-10px,10px) scale(0.98); }
+  100% { border-radius: 42% 58% 63% 37% / 40% 38% 62% 60%; transform: translate(0,0) scale(1); }
+}
+.animate-blob { animation: blob 14s ease-in-out infinite; }
+.animate-blob-delayed { animation: blob 16s ease-in-out infinite 0.8s; }
+
+.shimmer {
+  animation: shimmer-move 2.2s ease-in-out infinite;
+}
+@keyframes shimmer-move {
+  0% { transform: translateX(-120%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(220%); opacity: 0; }
+}
+
+/* Scroll indicator (mouse wheel style) */
+.scroll-indicator {
+  width: 30px;
+  height: 52px;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,.65);
+  position: relative;
+  opacity: .85;
+}
+html.light .scroll-indicator { border-color: rgba(0,0,0,.45); }
+.scroll-indicator::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 6px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background: rgba(255,255,255,.9);
+  animation: wheel 1.5s ease-in-out infinite;
+}
+html.light .scroll-indicator::after { background: rgba(0,0,0,.6); }
+@keyframes wheel {
+  0% { opacity: 0; transform: translate(-50%, 0); }
+  50% { opacity: 1; transform: translate(-50%, 10px); }
+  100% { opacity: 0; transform: translate(-50%, 18px); }
+}

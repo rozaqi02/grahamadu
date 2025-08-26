@@ -176,7 +176,7 @@ function Kontak({ theme }) {
               </ul>
               <div className="mt-8 text-sm text-gray-600 dark:text-gray-400">
                 <p>📍 Alamat: Graha Madu, Kalisongo, Malang</p>
-                <p>📧 Email: info@grahamadu.com</p>
+                <p>📧 Email: madunutribunga@gmail.com</p>
               </div>
             </div>
 

@@ -181,26 +181,26 @@ function Footer({ theme }) {
             </h3>
             <div className="flex flex-col space-y-3 text-sm">
               <a
-                href="mailto:info@grahamadu.com"
+                href="mailto:madunutribunga@gmail.com"
                 className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
               >
-                <FaEnvelope /> info@grahamadu.com
+                <FaEnvelope /> madunutribunga@gmail.com
               </a>
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6281334426377"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
               >
-                <FaWhatsapp /> +62 812 3456 7890
+                <FaWhatsapp /> 081 3344 26 377
               </a>
               <a
-                href="https://www.instagram.com/grahamadu/"
+                href="https://www.instagram.com/grahamadu_/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-yellow-200 transition-colors"
               >
-                <FaInstagram /> @grahamadu
+                <FaInstagram /> @grahamadu_
               </a>
               <p className="text-gray-300 mt-4 text-sm">
                 📍 Malang, Indonesia <br />
@@ -227,7 +227,7 @@ function Footer({ theme }) {
             <FaWhatsapp />
           </a>
           <a
-            href="mailto:info@grahamadu.com"
+            href="mailto:madunutribunga@gmai.com"
             className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-400 transition"
           >
             <FaEnvelope />
