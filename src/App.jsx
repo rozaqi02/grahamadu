@@ -1,23 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense, lazy } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
-// Pages
-import Beranda from "./pages/Beranda";
-import Produk from "./pages/Produk";
-import FAQ from "./pages/FAQ";
-import Tentang from "./pages/Tentang";
-import Kontak from "./pages/Kontak";
-
-// Components
+/* ==== Components (import harus paling atas) ==== */
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FloatingCart from "./components/FloatingCart";
 
-// Cart Context
+/* ==== Cart Context ==== */
 import { CartProvider, useCart } from "./context/CartContext";
+
+/* ==== Lazy pages (code-splitting) ==== */
+const Beranda = lazy(() => import("./pages/Beranda"));
+const Produk = lazy(() => import("./pages/Produk"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Tentang = lazy(() => import("./pages/Tentang"));
+const Kontak = lazy(() => import("./pages/Kontak"));
 
 /* ------------------ Scroll Restore + Progress ------------------ */
 function ScrollToTop() {
@@ -67,9 +67,7 @@ function CheckoutRedirect() {
   return (
     <PageTransition>
       <div className="max-w-2xl mx-auto px-6 py-24 text-center">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2">
-          Mengarahkan ke WhatsApp…
-        </h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">Mengarahkan ke WhatsApp…</h1>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
           Jika WhatsApp tidak terbuka otomatis, klik tombol di bawah.
         </p>
@@ -77,9 +75,7 @@ function CheckoutRedirect() {
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 text-left p-4 mb-6">
           <h2 className="font-semibold mb-2">Ringkasan Pesanan</h2>
           {!items.length ? (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Keranjang masih kosong.
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Keranjang masih kosong.</p>
           ) : (
             <ul className="text-sm space-y-1">
               {items.map((it) => (
@@ -109,18 +105,62 @@ function CheckoutRedirect() {
   );
 }
 
-/* ------------------ Routes with AnimatePresence ------------------ */
+/* ------------------ Routes with AnimatePresence + Suspense ------------------ */
 function AnimatedRoutes({ theme, toggleTheme }) {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Beranda theme={theme} /></PageTransition>} />
-        <Route path="/produk" element={<PageTransition><Produk theme={theme} /></PageTransition>} />
-        <Route path="/faq" element={<PageTransition><FAQ theme={theme} /></PageTransition>} />
-        <Route path="/tentang" element={<PageTransition><Tentang theme={theme} /></PageTransition>} />
-        <Route path="/kontak" element={<PageTransition><Kontak theme={theme} /></PageTransition>} />
-        {/* Checkout WA */}
+        <Route
+          path="/"
+          element={
+            <PageTransition>
+              <Suspense fallback={<div className="px-6 py-24 text-center text-sm opacity-70">Memuat…</div>}>
+                <Beranda theme={theme} />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/produk"
+          element={
+            <PageTransition>
+              <Suspense fallback={<div className="px-6 py-24 text-center text-sm opacity-70">Memuat produk…</div>}>
+                <Produk theme={theme} />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/faq"
+          element={
+            <PageTransition>
+              <Suspense fallback={<div className="px-6 py-24 text-center text-sm opacity-70">Memuat FAQ…</div>}>
+                <FAQ theme={theme} />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/tentang"
+          element={
+            <PageTransition>
+              <Suspense fallback={<div className="px-6 py-24 text-center text-sm opacity-70">Memuat profil…</div>}>
+                <Tentang theme={theme} />
+              </Suspense>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/kontak"
+          element={
+            <PageTransition>
+              <Suspense fallback={<div className="px-6 py-24 text-center text-sm opacity-70">Memuat kontak…</div>}>
+                <Kontak theme={theme} />
+              </Suspense>
+            </PageTransition>
+          }
+        />
         <Route path="/checkout" element={<CheckoutRedirect />} />
       </Routes>
     </AnimatePresence>
@@ -130,26 +170,21 @@ function AnimatedRoutes({ theme, toggleTheme }) {
 /* ------------------ App Root ------------------ */
 function App() {
   const [theme, setTheme] = useState("light");
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
-  // Pasang kelas ke <html> utk utilitas Tailwind dark:
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
   }, [theme]);
 
-  // Konfigurasi NProgress: merah, tanpa spinner, animasi mulus
   useEffect(() => {
     NProgress.configure({
-      showSpinner: false,           // ⟵ hilangkan loading bulat
-      trickleSpeed: 120,            // drip yang terasa halus
-      speed: 500,                   // transisi progress bar mulus
+      showSpinner: false,
+      trickleSpeed: 120,
+      speed: 500,
       easing: "ease",
       minimum: 0.05,
     });
-
-    // Inject CSS supaya bar NProgress merah brand
     const id = "nprogress-custom-style";
     if (!document.getElementById(id)) {
       const style = document.createElement("style");
@@ -157,7 +192,7 @@ function App() {
       style.innerHTML = `
         #nprogress .bar { background: #e73136 !important; height: 3px; }
         #nprogress .peg { box-shadow: 0 0 10px #e73136, 0 0 5px #e73136 !important; }
-        #nprogress .spinner { display: none !important; } /* guard */
+        #nprogress .spinner { display: none !important; }
       `;
       document.head.appendChild(style);
     }

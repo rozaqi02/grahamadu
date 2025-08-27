@@ -1,12 +1,11 @@
 import {
   motion,
   AnimatePresence,
-  useScroll,
   useTransform,
   useMotionValue,
   useSpring,
   useInView,
-} from "framer-motion";
+} from "framer-motion"; // ← useScroll dihapus dari import
 import { FaArrowRight } from "react-icons/fa";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -101,10 +100,10 @@ function Beranda({ theme }) {
   const L2 = useLayerShift(smoothX, smoothY, centerX, centerY, 18, 24);
   const L3 = useLayerShift(smoothX, smoothY, centerX, centerY, 10, 12); // cepat
 
-  /* -------- Sedikit transform saat scroll -------- */
-  const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 4]);
+  /* -------- (DIHAPUS) transform saat scroll yang memiringkan hero -------- */
+  // const { scrollYProgress } = useScroll();
+  // const scale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
+  // const rotate = useTransform(scrollYProgress, [0, 1], [0, 4]);
 
   /* -------- Satu background untuk seluruh halaman -------- */
   const [isMounted, setIsMounted] = useState(false);
@@ -124,19 +123,22 @@ function Beranda({ theme }) {
     "/assets/images/royal_jelly.jpg",
   ];
 
-  /* -------- HERO Visual Card Slideshow (ganti setiap 3 detik) -------- */
+  /* -------- HERO Visual Card Slideshow -------- */
   const heroSlides = useMemo(
     () => [
-      "/assets/images/madu_banyak.jpg",
-      "/assets/images/madu_premium.jpg",
-      "/assets/images/madu_propolis.jpg",
-      "/assets/images/royal_jelly.jpg",
+      "/assets/images/landing1.jpg",
+      "/assets/images/landing2.jpg",
+      "/assets/images/landing3.jpg",
+      "/assets/images/landing4.jpg",
+      "/assets/images/landing5.jpg",
+      "/assets/images/landing6.jpg",
+      "/assets/images/landing7.jpg",
     ],
     []
   );
   const [heroIndex, setHeroIndex] = useState(0);
 
-  // preload supaya transisinya mulus
+  // preload
   useEffect(() => {
     heroSlides.forEach((src) => {
       const img = new Image();
@@ -219,11 +221,8 @@ function Beranda({ theme }) {
           }`}
         />
 
-        {/* Konten hero */}
-        <motion.div
-          className="relative z-[1] max-w-7xl mx-auto px-6 w-full"
-          style={{ scale, rotate }}
-        >
+        {/* Konten hero (TANPA scroll-tilt: style scale/rotate dihapus) */}
+        <motion.div className="relative z-[1] max-w-7xl mx-auto px-6 w-full">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             {/* Teks */}
             <div>
@@ -350,7 +349,7 @@ function Beranda({ theme }) {
         </motion.div>
       </section>
 
-      {/* ================== STATS BAND (Efek 1) ================== */}
+      {/* ================== STATS BAND ================== */}
       <motion.section
         className="py-10 relative"
         initial={{ opacity: 0, y: 24 }}
@@ -392,7 +391,7 @@ function Beranda({ theme }) {
         </div>
       </motion.section>
 
-      {/* ================== PRODUK UNGGULAN (Efek 2,3) ================== */}
+      {/* ================== PRODUK UNGGULAN ================== */}
       <motion.section
         className="py-16 relative z-10"
         initial={{ y: 50, opacity: 0 }}
@@ -413,7 +412,7 @@ function Beranda({ theme }) {
                   whileHover={{ y: -4 }}
                   transition={{ type: "spring", stiffness: 200, damping: 18 }}
                 >
-                  {/* gradient ring (Efek 2) */}
+                  {/* gradient ring */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#e73136] to-[#8f2f31] opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative m-[2px] rounded-2xl overflow-hidden">
                     <motion.div
@@ -449,7 +448,7 @@ function Beranda({ theme }) {
         </div>
       </motion.section>
 
-      {/* ================== KEUNGGULAN (Efek 4: ripple highlight) ================== */}
+      {/* ================== KEUNGGULAN ================== */}
       <motion.section
         className="py-16 relative z-10"
         initial={{ y: 40, opacity: 0 }}
@@ -489,7 +488,7 @@ function Beranda({ theme }) {
         </div>
       </motion.section>
 
-      {/* ================== CTA (Efek 5: sparkles + pulse) ================== */}
+      {/* ================== CTA ================== */}
       <motion.section
         className="py-16"
         initial={{ opacity: 0, y: 24 }}
@@ -499,7 +498,6 @@ function Beranda({ theme }) {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 text-center text-white bg-gradient-to-r from-[#8f2f31] to-[#e73136]">
-            {/* sparkles */}
             {[...Array(14)].map((_, i) => (
               <motion.span
                 key={i}

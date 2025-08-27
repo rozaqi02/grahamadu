@@ -40,6 +40,7 @@ html.light {
 /* ======================
    🌿 Base Styles
    ====================== */
+html, body, #root { height: 100%; } /* stabilisasi tinggi */
 html {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -92,7 +93,8 @@ body::before {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-/* ───────── Extra animations & helpers for hero ───────── */
+
+/* ───────── Extra animations & helpers for hero/parallax ───────── */
 @keyframes blob {
   0%   { border-radius: 42% 58% 63% 37% / 40% 38% 62% 60%; transform: translate(0,0) scale(1); }
   33%  { border-radius: 58% 42% 45% 55% / 54% 40% 60% 46%; transform: translate(8px,-12px) scale(1.05); }
@@ -102,9 +104,8 @@ body::before {
 .animate-blob { animation: blob 14s ease-in-out infinite; }
 .animate-blob-delayed { animation: blob 16s ease-in-out infinite 0.8s; }
 
-.shimmer {
-  animation: shimmer-move 2.2s ease-in-out infinite;
-}
+/* shimmer line */
+.shimmer { animation: shimmer-move 2.2s ease-in-out infinite; }
 @keyframes shimmer-move {
   0% { transform: translateX(-120%); opacity: 0; }
   50% { opacity: 1; }
@@ -139,3 +140,12 @@ html.light .scroll-indicator::after { background: rgba(0,0,0,.6); }
   50% { opacity: 1; transform: translate(-50%, 10px); }
   100% { opacity: 0; transform: translate(-50%, 18px); }
 }
+
+/* Utilities */
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* Progress bar (dipakai di Kontak) */
+@keyframes t-progress { from { width: 0% } to { width: 100% } }

@@ -120,8 +120,8 @@ function Footer({ theme }) {
               {[
                 { to: "/", label: "Beranda" },
                 { to: "/produk", label: "Produk" },
-                { to: "/testimoni", label: "Testimoni" },
-                { to: "/tentang", label: "Tentang" },
+                { to: "/faq", label: "FAQ" },
+                { to: "/tentang", label: "Tentang Kami" },
                 { to: "/kontak", label: "Kontak" },
               ].map((n) => (
                 <li key={n.to}>
@@ -174,7 +174,6 @@ function Footer({ theme }) {
 
               <p className="text-white/80 mt-4 text-sm">
                 📍 Malang, Indonesia <br />
-                🕒 Senin - Sabtu, 08.00 - 17.00
               </p>
             </div>
           </motion.div>

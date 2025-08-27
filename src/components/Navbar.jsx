@@ -32,6 +32,7 @@ function Navbar({ theme, toggleTheme }) {
     setIsOpen(false);
   };
 
+  // Blur background (tanpa shadow)
   const backgroundStyle = {
     backgroundColor:
       theme === "dark"
@@ -43,10 +44,13 @@ function Navbar({ theme, toggleTheme }) {
       theme === "dark"
         ? `1px solid rgba(255,255,255,${scrolled ? 0.08 : 0.05})`
         : `1px solid rgba(0,0,0,${scrolled ? 0.08 : 0.05})`,
-    boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,.08)" : "none",
+    boxShadow: "none", // ← hilangkan shadow total
     transition:
-      "background-color 500ms ease, color 350ms ease, border-color 350ms ease, backdrop-filter 500ms ease, box-shadow 500ms ease",
+      "background-color 500ms ease, color 350ms ease, border-color 350ms ease, backdrop-filter 500ms ease",
   };
+
+  // warna ikon cart: hitam di light, putih di dark
+  const cartIconColor = theme === "light" ? "#000000" : "#ffffff";
 
   return (
     <nav
@@ -81,12 +85,11 @@ function Navbar({ theme, toggleTheme }) {
                   e.preventDefault();
                   handleNavClick(link.path);
                 }}
-                className={`text-sm font-medium relative transition-colors
-                  ${
-                    location.pathname === link.path
-                      ? "text-[#e73136]"
-                      : "hover:text-[#8f2f31]"
-                  }`}
+                className={`text-sm font-medium relative transition-colors ${
+                  location.pathname === link.path
+                    ? "text-[#e73136]"
+                    : "hover:text-[#8f2f31]"
+                }`}
                 whileHover={{ y: -2 }}
               >
                 {link.name}
@@ -99,13 +102,14 @@ function Navbar({ theme, toggleTheme }) {
             {/* Cart Button */}
             <motion.button
               onClick={() => setOpen(true)}
-              className={`relative p-2 rounded-full transition-colors
-                ${theme === "light" ? "hover:bg-gray-100" : "hover:bg-gray-800"}`}
+              className={`relative p-2 rounded-full transition-colors ${
+                theme === "light" ? "hover:bg-gray-100" : "hover:bg-gray-800"
+              }`}
               whileTap={{ scale: 0.95 }}
               aria-label="Buka Keranjang"
               title="Keranjang"
             >
-              <FaShoppingCart className="text-[#e73136]" size={18} />
+              <FaShoppingCart style={{ color: cartIconColor }} size={18} />
               {count > 0 && (
                 <span className="absolute -top-1 -right-1 text-[10px] leading-none px-1.5 py-0.5 rounded-full bg-[#8f2f31] text-white">
                   {count}
@@ -125,7 +129,11 @@ function Navbar({ theme, toggleTheme }) {
               aria-label="Ganti tema"
               title="Ganti tema"
             >
-              {theme === "light" ? <FaMoon size={18} /> : <FaSun size={18} />}
+              {theme === "light" ? (
+                <FaMoon size={18} />
+              ) : (
+                <FaSun size={18} color="#ffffff" /> 
+              )}
             </motion.button>
 
             {/* Hamburger */}

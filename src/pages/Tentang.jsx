@@ -2,6 +2,16 @@ import { motion, useScroll, useTransform, useMotionValue, animate } from "framer
 import { useEffect, useRef, useState } from "react";
 import { FaCheckCircle, FaSeedling, FaLeaf } from "react-icons/fa";
 
+/* ====== Sumber Visi & Misi (dari dokumen) ====== */
+const VISI_MISI = {
+  visi: "Menjadi pusat madu herbal berkualitas di Indonesia.",
+  misi: [
+    "Memberdayakan peternak lebah dari hulu ke hilir.",
+    "Pemakaian sumber bahan baku berkualitas.",
+    "Proses produksi menggunakan teknologi."
+  ],
+};
+
 /* CountUp angka yang smooth */
 function CountUp({ from = 0, to = 100, duration = 1.6, className = "" }) {
   const ref = useRef(null);
@@ -39,6 +49,9 @@ function Tentang({ theme }) {
     hidden: { y: 28, opacity: 0 },
     show: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
   };
+
+  const hasVisi = !!VISI_MISI.visi?.trim();
+  const hasMisi = Array.isArray(VISI_MISI.misi) && VISI_MISI.misi.length > 0;
 
   return (
     <div className={`min-h-screen font-[Poppins] ${theme === "dark" ? "text-white" : "text-gray-800"} relative`} style={bg}>
@@ -169,43 +182,50 @@ function Tentang({ theme }) {
         </div>
       </motion.section>
 
-      {/* VISI & MISI */}
-      <motion.section
-        className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 py-6"
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <div className="grid md:grid-cols-2 gap-6">
-          <motion.div
-            whileHover={{ y: -4, rotate: -0.2 }}
-            className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
-          >
-            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
-              <FaSeedling /> Visi
-            </h3>
-            <p className="text-gray-700 dark:text-gray-300">
-              Menjadi brand madu terpercaya di Indonesia yang menghadirkan produk alami berkualitas dengan menjaga keberlanjutan kemitraan peternak lebah.
-            </p>
-          </motion.div>
+      {/* VISI & MISI (auto-hide jika tidak ada data) */}
+      {(hasVisi || hasMisi) && (
+        <motion.section
+          className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 py-10"
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Visi */}
+            {hasVisi && (
+              <motion.div
+                whileHover={{ y: -4, rotate: -0.2 }}
+                className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
+              >
+                <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
+                  <FaSeedling /> Visi
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {VISI_MISI.visi}
+                </p>
+              </motion.div>
+            )}
 
-          <motion.div
-            whileHover={{ y: -4, rotate: 0.2 }}
-            className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
-          >
-            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
-              <FaLeaf /> Misi
-            </h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-              <li>Menyediakan produk madu asli, sehat, dan bermanfaat.</li>
-              <li>Memberdayakan peternak lokal melalui kemitraan berkelanjutan.</li>
-              <li>Mengedukasi konsumen tentang manfaat madu & produk lebah.</li>
-              <li>Menjamin kualitas melalui legalitas resmi & uji laboratorium.</li>
-            </ul>
-          </motion.div>
-        </div>
-      </motion.section>
+            {/* Misi */}
+            {hasMisi && (
+              <motion.div
+                whileHover={{ y: -4, rotate: 0.2 }}
+                className="p-8 rounded-3xl bg-[#fdecec] dark:bg-[#1a2230] border border-[#f3c5c6] dark:border-gray-800 shadow"
+              >
+                <h3 className="text-2xl font-bold mb-3 flex items-center gap-2 text-[#8f2f31] dark:text-[#e73136]">
+                  <FaLeaf /> Misi
+                </h3>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                  {VISI_MISI.misi.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+          </div>
+        </motion.section>
+      )}
 
       {/* LEGALITAS */}
       <motion.section
@@ -276,4 +296,3 @@ function Tentang({ theme }) {
 }
 
 export default Tentang;
-  
