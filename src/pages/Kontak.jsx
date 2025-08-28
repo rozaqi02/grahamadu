@@ -19,27 +19,20 @@ function Kontak({ theme }) {
   const [errors, setErrors] = useState({});
   const maxLen = 300;
 
+  // ==== Alamat & Maps ====
+  const ADDRESS_TXT =
+    "GRAHA MADU, Puri Cempaka Putih I / AC 10, Jl. Mayjend Sungkono, Malang";
+  const MAPS_LINK = "https://maps.app.goo.gl/n5zuGVfd7Cpm57rr6";
+  const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(
+    ADDRESS_TXT
+  )}&output=embed`;
+
   const testimonials = useMemo(
     () => [
-      {
-        text:
-          "Produk Nutri Bunga benar-benar asli, rasanya lembut dan tidak bikin eneg.",
-        author: "Rina, Surabaya",
-      },
-      {
-        text:
-          "Sejak rutin minum madu Nutri Bunga, badan lebih segar dan jarang sakit.",
-        author: "Budi, Malang",
-      },
-      {
-        text:
-          "Pelayanan ramah, pengiriman cepat, dan kualitas madu luar biasa.",
-        author: "Lestari, Bandung",
-      },
-      {
-        text: "Madu klancengnya mantap banget. Sekarang jadi langganan.",
-        author: "Agus, Jakarta",
-      },
+      { text: "Produk Nutri Bunga benar-benar asli, rasanya lembut dan tidak bikin eneg.", author: "Rina, Surabaya" },
+      { text: "Sejak rutin minum madu Nutri Bunga, badan lebih segar dan jarang sakit.", author: "Budi, Malang" },
+      { text: "Pelayanan ramah, pengiriman cepat, dan kualitas madu luar biasa.", author: "Lestari, Bandung" },
+      { text: "Madu klancengnya mantap banget. Sekarang jadi langganan.", author: "Agus, Jakarta" },
     ],
     []
   );
@@ -102,7 +95,7 @@ function Kontak({ theme }) {
   const isDark = theme === "dark";
   const [showMap, setShowMap] = useState(false);
 
-  // path gambar dari public/ supaya aman di CRA/webpack
+  // path gambar dari public/
   const mapPlaceholder =
     (process.env.PUBLIC_URL || "") + "/assets/images/map-placeholder.jpg";
 
@@ -235,7 +228,18 @@ function Kontak({ theme }) {
                 ))}
               </ul>
               <div className="mt-5 text-sm text-gray-600 dark:text-gray-300">
-                <p>📍 Kalisongo, Malang</p>
+                <p>
+                  📍{" "}
+                  <a
+                    href={MAPS_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-dotted underline-offset-2 hover:opacity-80"
+                    title="Buka di Google Maps"
+                  >
+                    {ADDRESS_TXT}
+                  </a>
+                </p>
                 <p>📧 madunutribunga@gmail.com</p>
               </div>
             </div>
@@ -266,8 +270,8 @@ function Kontak({ theme }) {
                 ) : (
                   <>
                     <iframe
-                      title="Lokasi Nutri Bunga"
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.6285900855654!2d112.5861827!3d-7.9396367999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e789eab3b13c61b%3A0x9c42f7d15bf6ab0!2sKalisongo%2C%20Malang!5e0!3m2!1sid!2sid!4v1734477111111!5m2!1sid!2sid"
+                      title="Lokasi GRAHA MADU"
+                      src={MAPS_EMBED}
                       width="100%"
                       height="260"
                       style={{ border: 0 }}
@@ -275,6 +279,7 @@ function Kontak({ theme }) {
                       allowFullScreen
                       referrerPolicy="no-referrer-when-downgrade"
                     />
+                    {/* Marker anim tipis */}
                     <motion.div
                       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[60%] text-[#e73136] text-3xl drop-shadow"
                       animate={{ y: [0, -8, 0] }}
@@ -288,6 +293,17 @@ function Kontak({ theme }) {
                     </motion.div>
                   </>
                 )}
+              </div>
+              {/* CTA ke Google Maps */}
+              <div className="flex justify-end mt-2">
+                <a
+                  href={MAPS_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs md:text-sm underline decoration-dotted underline-offset-2 hover:opacity-80"
+                >
+                  Lihat di Google Maps
+                </a>
               </div>
             </div>
 

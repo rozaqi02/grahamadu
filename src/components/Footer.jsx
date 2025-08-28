@@ -20,6 +20,9 @@ function Footer({ theme }) {
     : {};
 
   const WA_LINK = "https://wa.me/6281334426377"; // 081 3344 26 377
+  const MAPS_LINK = "https://maps.app.goo.gl/n5zuGVfd7Cpm57rr6";
+  const ADDRESS_TXT =
+    "GRAHA MADU, Puri Cempaka Putih I / AC 10, Jl. Mayjend Sungkono, Malang";
 
   const smoothScrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -153,7 +156,6 @@ function Footer({ theme }) {
                 <FaEnvelope /> madunutribunga@gmail.com
               </a>
 
-              {/* WA: pakai gaya baris normal (bukan badge bulat) agar teks tidak patah */}
               <a
                 href={WA_LINK}
                 target="_blank"
@@ -173,13 +175,22 @@ function Footer({ theme }) {
               </a>
 
               <p className="text-white/80 mt-4 text-sm">
-                📍 Malang, Indonesia <br />
+                📍{" "}
+                <a
+                  href={MAPS_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-dotted underline-offset-2 hover:opacity-80"
+                  title="Buka di Google Maps"
+                >
+                  {ADDRESS_TXT}
+                </a>
               </p>
             </div>
           </motion.div>
         </div>
 
-        {/* Ikon Sosial konsisten (semua warna brand) */}
+        {/* Ikon Sosial */}
         <motion.div
           className="flex justify-center md:justify-end gap-3 mt-8"
           initial={{ scale: 0.9, opacity: 0 }}
@@ -189,16 +200,8 @@ function Footer({ theme }) {
         >
           {[
             { href: WA_LINK, icon: <FaWhatsapp />, label: "WhatsApp" },
-            {
-              href: "mailto:madunutribunga@gmail.com",
-              icon: <FaEnvelope />,
-              label: "Email",
-            },
-            {
-              href: "https://www.instagram.com/grahamadu_/",
-              icon: <FaInstagram />,
-              label: "Instagram",
-            },
+            { href: "mailto:madunutribunga@gmail.com", icon: <FaEnvelope />, label: "Email" },
+            { href: "https://www.instagram.com/grahamadu_/", icon: <FaInstagram />, label: "Instagram" },
           ].map((s) => (
             <a
               key={s.label}
