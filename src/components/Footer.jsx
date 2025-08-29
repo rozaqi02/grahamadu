@@ -166,7 +166,7 @@ function Footer({ theme }) {
               </a>
 
               <a
-                href="https://www.instagram.com/grahamadu_/"
+                href="https://www.instagram.com/nutribunga_//"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-white transition-colors"
@@ -201,7 +201,7 @@ function Footer({ theme }) {
           {[
             { href: WA_LINK, icon: <FaWhatsapp />, label: "WhatsApp" },
             { href: "mailto:madunutribunga@gmail.com", icon: <FaEnvelope />, label: "Email" },
-            { href: "https://www.instagram.com/grahamadu_/", icon: <FaInstagram />, label: "Instagram" },
+            { href: "https://www.instagram.com/nutribunga_/", icon: <FaInstagram />, label: "Instagram" },
           ].map((s) => (
             <a
               key={s.label}
