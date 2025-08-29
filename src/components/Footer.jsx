@@ -171,7 +171,7 @@ function Footer({ theme }) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <FaInstagram /> @grahamadu_
+                <FaInstagram /> @nutribunga_
               </a>
 
               <p className="text-white/80 mt-4 text-sm">
