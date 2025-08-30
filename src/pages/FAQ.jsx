@@ -99,7 +99,7 @@ function FAQ({ theme }) {
           className="pt-6 md:pt-10 text-4xl md:text-5xl font-[Montserrat] font-extrabold text-center"
           style={{ scale: titleScale, y: titleY }}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e73136] to-[#8f2f31]">Frequently Asked Questions</span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e73136] to-[#8f2f31]">Pertanyaan Yang Sering Diajukan</span>
         </motion.h1>
 
         {/* Toolbar: search + actions */}
